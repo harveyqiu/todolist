@@ -9,16 +9,22 @@ from .serializer import TodoSerializer
 
 @api_view(['GET'])
 def todo_list(request):
-    todo_set = Todo.objects.filter(checked=False)
+    # todo_set = Todo.objects.filter(checked=False)
+    todo_set = Todo.objects.all()
     serializer = TodoSerializer(todo_set, many=True)
 
     return Response(serializer.data)
 
 
-@api_view(['POST'])
+@api_view(['POST', 'DELETE'])
 def todo(request):
-    serializer = TodoSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if request.method == 'POST':
+        serializer = TodoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        to_do = Todo.objects.get(pk=request.data['id'])
+        to_do.delete()
+        return Response({'message': 'success'})

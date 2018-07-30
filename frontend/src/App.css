@@ -1,3 +1,26 @@
 .list-group-item {
     display: flex;
+    height: 7vh;
+    align-items: center;
 }
+
+.btn-delete {
+    height: 5vh;
+}
+
+.checkbox {
+    height: 4vh;
+    width: 4vh;
+    padding-right: 1vh;
+}
+
+.checkbox-item {
+    height: 100%;
+    width: 100%;
+    border: 2vh;
+}
+
+.checked {
+    background-color: grey;
+}
+
