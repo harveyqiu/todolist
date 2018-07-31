@@ -10,30 +10,75 @@ class UncheckedTodoList extends Component {
     this.state = {
       todos: []
     };
+    this.getAll = this.getAll.bind(this)
+    this.getListOrderByExpireDate = this.getListOrderByExpireDate.bind(this)
+    this.getListOrderByPriority = this.getListOrderByPriority.bind(this)
+    this.deleteTodo = this.deleteTodo.bind(this)
+  }
+
+
+  getAll() {
+    axios.get('http://localhost:8000/api/todos/?page=' + this.props.page)
+    .then(function (response) {
+      this.setState({todos: response.data.results})
+    }.bind(this))
+  }
+
+  getListOrderByExpireDate() {
+    axios.get('http://localhost:8000/api/todos/order_by_expire_date/?page=' + this.props.page)
+    .then(function (response) {
+      this.setState({todos: response.data.results})
+    }.bind(this))
+  }
+
+  getListOrderByPriority() {
+    axios.get("http://localhost:8000/api/todos/order_by_priority/?page=" + this.props.page)
+    .then(function (response) {
+      this.setState({todos: response.data.results})
+    }.bind(this))
+  }
+
+
+  deleteTodo(id) {
+    axios({
+      method: 'DELETE',
+      url: 'http://localhost:8000/api/todos/' + id,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    let todos = []
+    this.state.todos.forEach(todo => {
+      if (todo.id !== id) {
+        todos.push(todo)
+      }
+    });
+    this.setState({todos})
   }
 
   componentDidMount() {
-    axios.get('http://localhost:8000/api/todos/?page=1')
-      .then(function (response) {
-        this.setState({todos: response.data.results})
-      }.bind(this))
-      .catch()
-      
+    this.getAll()
   }
-
-  
 
   render() {
     return ( 
-      <ul className = "list-group" >
-        {
-          this.state.todos.map((todo)=> (
-            <UncheckedTodo todo={todo} key={todo.id}/>
-          ))
-        }
-      </ul>
-      
+      <div>
+            <ul className = "list-group">
+              {
+                this.state.todos.map((todo)=> (
+                  <UncheckedTodo todo={todo} key={todo.id} onDelete={() => this.deleteTodo(todo.id)}/>
+                ))
+              }
+            </ul>
+            
+            <div className="btn-group" role="group" aria-label="Order">
+              <button type="button" className="btn btn-secondary" onClick={this.getAll}>All</button>
+              <button type="button" className="btn btn-secondary" onClick={this.getListOrderByExpireDate}>Order by Expire Date</button>
+              <button type="button" className="btn btn-secondary" onClick={this.getListOrderByPriority}>Order by Priority</button>
+            </div>
+      </div>
 
+    
     );
   }
 }

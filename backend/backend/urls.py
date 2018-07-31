@@ -5,5 +5,5 @@ urlpatterns = [
     # url(r'^$', 'backend.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
     url(r'^api/', include('todo.urls')),
-    url(r'^admin', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
 ]

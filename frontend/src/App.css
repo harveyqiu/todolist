@@ -51,3 +51,18 @@
 .priority {
     width: 15%;
 }
+
+.page {
+    padding-top: 2vh;
+
+}
+
+.pagination {
+    justify-content: center;
+}
+
+.btn-group {
+    justify-content: center;
+    display: flex;
+    margin-top:2vh;
+}

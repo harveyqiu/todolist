@@ -3,27 +3,16 @@ import './App.css';
 import axios from 'axios';
 
 class UncheckedTodo extends Component {
-  checkTodo(event) {
-    axios({
-      method: 'PATCH',
-      url: 'http://localhost:8000/api/todo/',
-      data: JSON.stringify({
-        id: this.props.todo.id
-      }),
-    })
+  checkTodo(){
+    let temp = this.state.todo
+    temp.checked = temp.checked === false ? true : false
+    this.setState(temp)
+    this.updateTodo()
   }
   
+
   deleteTodo(event)  {
-      axios({
-        method: 'DELETE',
-        url: 'http://localhost:8000/api/todo/',
-        data: JSON.stringify({
-          id: this.props.todo.id
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
+      this.props.onDelete()
   }
 
   contentOnChange(event) {
@@ -59,21 +48,19 @@ class UncheckedTodo extends Component {
   updateTodo() {
      axios({
         method: 'PUT',
-        url: 'http://localhost:8000/api/todo',
+        url: 'http://localhost:8000/api/todos/' + this.state.todo.id,
         data: JSON.stringify({
           id: this.state.todo.id,
           content: this.state.todo.content,
           expire_date: this.state.todo.expire_date,
-          priority: this.state.todo.priority
+          priority: this.state.todo.priority,
+          checked: this.state.todo.checked
         }),
         headers:{
           'Content-Type': 'application/json'
         }
     }) 
   }
-
-
-
 
   constructor(props) {
     super(props);

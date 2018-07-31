@@ -10,5 +10,6 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register(r'todos', views.TodoViewSet, base_name='todo')
 urlpatterns = [
+    url(r'^page', views.page_count),
     url(r'^', include(router.urls))
 ]
