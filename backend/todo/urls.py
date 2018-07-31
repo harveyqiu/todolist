@@ -1,13 +1,14 @@
 from django.conf.urls import url, include
 from . import views
-from rest_framework.routers import DefaultRouter
+from rest_framework import routers
 
 #
 
 # The API URLs are now determined automatically by the router.
 # Additionally, we include the login URLs for the browsable API.
+
+router = routers.DefaultRouter()
+router.register(r'todos', views.TodoViewSet, base_name='todo')
 urlpatterns = [
-    url(r'todo/list', views.todo_list),
-    url(r'todo', views.todo),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^', include(router.urls))
 ]

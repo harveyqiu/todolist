@@ -17,10 +17,37 @@
 .checkbox-item {
     height: 100%;
     width: 100%;
-    border: 2vh;
 }
 
 .checked {
     background-color: grey;
 }
 
+.expire_date {
+    width: 20%;
+    margin-right: 2%;
+}
+
+.content {
+    width: 70%;
+    margin-right: 2%;
+}
+
+.btn-date {
+    height: 5vh;
+}
+
+.btn-add {
+    width: 100%;
+}
+
+.add {
+    width: 4vh;
+    height: 4vh;
+    padding-right: 1vh;
+    padding-top: 0.5vh;
+}
+
+.priority {
+    width: 15%;
+}

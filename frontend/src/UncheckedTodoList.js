@@ -13,9 +13,9 @@ class UncheckedTodoList extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:8000/api/todo/list/')
+    axios.get('http://localhost:8000/api/todos/?page=1')
       .then(function (response) {
-        this.setState({todos: response.data})
+        this.setState({todos: response.data.results})
       }.bind(this))
       .catch()
       
@@ -32,7 +32,7 @@ class UncheckedTodoList extends Component {
           ))
         }
       </ul>
-
+      
 
     );
   }

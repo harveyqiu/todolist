@@ -9,25 +9,25 @@ class NewTodo extends Component {
     super(props);
     this.state = { 
       todo: {
-        content: '233',
+        content: '',
         expire_date: '',
-        priority: '',
+        priority: 0,
       }
     }
-    this.keyPress = this.keyPress.bind(this)
+    this.addTodo = this.addTodo.bind(this)
+    this.contentOnChange = this.contentOnChange.bind(this)
+    this.dateOnChange = this.dateOnChange.bind(this)
   }
 
-  keyPress(event) {
-    if (event.which !== 13) return
-      console.log('你按了回车键...')
+  addTodo(event) {
       axios({
-        method: 'post',
-        url: 'http://localhost:8000/api/todo/',
+        method: 'POST',
+        url: 'http://localhost:8000/api/todos/',
         data: JSON.stringify({
           content: this.state.todo.content,
-          expire_date: '2017-7-6',
-          priority: 0,
-          checked: 'false'
+          expire_date: this.state.todo.expire_date,
+          priority: this.state.todo.priority,
+          checked: false
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -36,17 +36,41 @@ class NewTodo extends Component {
   }
 
 
-  onChange(event) {
-    this.setState({todo:{
-      content: event.target.value
-    }})
+  contentOnChange(event) {
+    let temp = this.state.todo
+    temp.content = event.target.value
+    this.setState(temp)
+  }
+
+  dateOnChange(event) {
+    let temp = this.state.todo
+    temp.expire_date = event.target.value
+    this.setState(temp)
   }
 
   render() {
     return (
-      <div className="add">
-        <input className="form-control" placeholder="New Todo" onKeyPress={this.keyPress} onChange={this.onChange}/>
-      </div>
+      <ul className="list-group">
+        <li className="list-group-item">
+          <div className="add">
+            <input type="image" src={require('./add.png')} className="btn-add" alt="Add Todo" onClick={this.addTodo}/>
+          </div>
+          <div className="content">
+            <input className="form-control" type="text" placeholder="New Todo" value={this.state.todo.content} onChange={this.contentOnChange}/>
+          </div>
+          <div className="expire_date">
+            <input className="form-control" type="date" value={this.state.todo.expire_date} onChange={this.dateOnChange}/>
+          </div>
+          <div className="priority">
+            <select className="form-control" value={this.state.todo.priority}>
+              <option>普通</option>
+              <option>紧急</option>
+              <option>非常紧急</option>
+            </select>
+          </div>
+        </li>
+      </ul>
+      
     );
   }
 }
