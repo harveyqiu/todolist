@@ -33,6 +33,14 @@ class NewTodo extends Component {
           'Content-Type': 'application/json'
         }
       })
+      .then(function (response) {
+        let todo = {}
+        todo.content = ""
+        todo.priority = 0
+        todo.checked = false
+        todo.expire_date = ""
+        this.setState({todo})
+      }.bind(this))
   }
 
 

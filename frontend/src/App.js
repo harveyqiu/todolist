@@ -6,18 +6,13 @@ import UncheckedTodoList from './UncheckedTodoList';
 import axios from 'axios'
 
 class App extends Component {
-  getPage() {
-    axios.get('http://localhost:8000/api/todo/')
-      .then(function (response) {
-
-      })
-  }
-
   constructor(props) {
     super(props);
     this.state = {
-      count: 1,
-      nowPage: 1
+      page: {
+        count: 1,
+        page: 1
+      }
     }
     this.pagination = this.pagination.bind(this)
     this.alterPage = this.alterPage.bind(this)
@@ -25,19 +20,16 @@ class App extends Component {
 
   pagination() {
     let pagination = []
-    for(let i=1;i<=this.state.count;i++) {
-      pagination.push(<li className="page-item" key={i}><a className="page-link" onClick={this.alterPage}>{i}</a></li>)
+    for(let i=1;i<=this.state.page.count;i++) {
+      pagination.push(<li className="page-item" key={i}><a className="page-link" onClick={this.alterPage(i)}>{i}</a></li>)
     }
     return pagination
   }
-
+  
   alterPage(pageNum) {
-    axios.get("http://localhost:8000/api/page/")
-    .then(function (response) {
-      let state = this.state
-      state.count = response.data.num_pages
-      this.setState(state)
-    }.bind(this))
+    let state = this.state.page
+    state.page = pageNum
+    this.setState({state})
   }
 
   render() {
@@ -45,7 +37,7 @@ class App extends Component {
       <div className="container">
         <h1 className="title text-center">Todo List</h1>
         <NewTodo/>
-        <UncheckedTodoList page={this.state.nowPage}/>
+        <UncheckedTodoList page={this.state.page.page}/>
         <nav className="container page">
               <ul className="pagination pagination-lg">
                 <this.pagination/>
@@ -53,6 +45,15 @@ class App extends Component {
         </nav>
       </div>
     );
+  }
+
+  componentDidMount() {
+    axios.get("http://localhost:8000/api/page/")
+    .then(function (response) {
+      let page = this.state.page
+      page.count = response.data.num_pages
+      this.setState({page})
+    }.bind(this))
   }
 }
 
