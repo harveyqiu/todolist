@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 
 class TodoViewSet(viewsets.ModelViewSet):
     serializer_class = TodoSerializer
-    queryset = Todo.objects.all()
+    queryset = Todo.objects.filter(checked=False)
 
     @list_route(methods=['get'])
     def order_by_expire_date(self, request):
