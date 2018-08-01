@@ -18,23 +18,23 @@ class UncheckedTodoList extends Component {
 
 
   getAll() {
-    axios.get('http://localhost:8000/api/todos/?page=' + this.props.page)
+    axios.get('http://localhost:8000/api/todos/')
     .then(function (response) {
-      this.setState({todos: response.data.results})
+      this.setState({todos: response.data})
     }.bind(this))
   }
 
   getListOrderByExpireDate() {
-    axios.get('http://localhost:8000/api/todos/order_by_expire_date/?page=' + this.props.page)
+    axios.get('http://localhost:8000/api/todos/order_by_expire_date/')
     .then(function (response) {
-      this.setState({todos: response.data.results})
+      this.setState({todos: response.data})
     }.bind(this))
   }
 
   getListOrderByPriority() {
-    axios.get("http://localhost:8000/api/todos/order_by_priority/?page=" + this.props.page)
+    axios.get("http://localhost:8000/api/todos/order_by_priority/")
     .then(function (response) {
-      this.setState({todos: response.data.results})
+      this.setState({todos: response.data})
     }.bind(this))
   }
 
